@@ -1,25 +1,17 @@
-import logo from './logo.svg';
+import { allAllowedWords } from 'game-logic/allowedWords';
+import { calWordEntropy } from 'game-logic/calWordEntropy';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = _ => {
+  const trial = calWordEntropy('slate', allAllowedWords);
+  const trialDisplay = JSON.stringify(trial.feedbackHistogram, null, 2);
+  console.log('trial: ', trialDisplay);
+  let prob = 0;
+  for (const key of Object.keys(trial.feedbackHistogram)) {
+    prob += trial.feedbackHistogram[key];
+  }
+  console.log(prob);
+  return <div className='App'>{trial.entropy}</div>;
+};
 
 export default App;
